@@ -17,7 +17,8 @@ async function getPosts() {
       button.textContent = 'Like'
 
       const small = document.createElement('small')
-      small.textContent = '99 likes'
+      const likeCount = getLikesFromId(post.id)
+      small.textContent = `${likeCount} Likes`
 
       let article = document.createElement('article')
       article.append(h2, p, button, small)
@@ -27,5 +28,16 @@ async function getPosts() {
     alert('Error on fetching posts')
   }
 }
+
+function getLikesFromId(id) {
+  const likesString = localStorage.getItem('likes')
+  if (!likesString) return 0
+  let likes = JSON.parse(likesString)
+  let postLike = likes.find((item) => item.id === id)
+  if (!postLike) return 0
+
+  return postLike.count
+}
+
 
 getPosts()
